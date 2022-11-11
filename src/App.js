@@ -1,19 +1,23 @@
-import { BrowserRouter, Route, Switch, Redirect } from 'react-router-dom';
-import QuoteList from './components/quotes/QuoteList';
+import { BrowserRouter, Redirect, Route, Switch } from 'react-router-dom';
+import AllQuotes from './pages/AllQuotes';
+import NewQuote from './pages/NewQuote';
+import QuoteDetails from './pages/QuoteDetails';
 
 function App() {
-  const quotes = [{ id: 1, text: 'text' }];
   return (
     <BrowserRouter>
       <Switch>
-        <Route path='/quotes'>
-          <QuoteList quotes={quotes} />
+        <Route path='/' exact>
+          <Redirect to='/quotes'></Redirect>
+        </Route>
+        <Route path='/quotes' exact>
+          <AllQuotes />
         </Route>
         <Route path='/quotes/:id'>
-          
+          <QuoteDetails />
         </Route>
         <Route path='/new-quote'>
-          
+          <NewQuote />
         </Route>
       </Switch>
     </BrowserRouter>
