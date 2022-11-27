@@ -1,15 +1,16 @@
-import { useRef } from 'react';
+import { useRef, useState } from 'react';
+import { Prompt } from 'react-router-dom';
 
 import Card from '../ui/Card';
 import LoadingSpinner from '../ui/LoadingSpinner';
 import classes from './QuoteForm.module.css';
 
-
 const QuoteForm = (props) => {
+  const [formIsDirty, setFormIsDirty] = useState(false);
   const authorInputRef = useRef();
   const textInputRef = useRef();
 
-  function submitFormHandler(event) {
+  const submitFormHandler = (event) => {
     event.preventDefault();
 
     const enteredAuthor = authorInputRef.current.value;
@@ -20,9 +21,25 @@ const QuoteForm = (props) => {
     props.onAddQuote({ author: enteredAuthor, text: enteredText });
   }
 
+  const formFocusHandler = () => {
+    setFormIsDirty(true);
+  };
+
+  const addQuoteHandler = () => {
+    setFormIsDirty(false);
+  };
+
   return (
     <Card>
-      <form className={classes.form} onSubmit={submitFormHandler}>
+      <Prompt
+        when={formIsDirty}
+        message='Are you sure you want to leave page without saving?'
+      />
+      <form
+        onFocus={formFocusHandler}
+        className={classes.form}
+        onSubmit={submitFormHandler}
+      >
         {props.isLoading && (
           <div className={classes.loading}>
             <LoadingSpinner />
@@ -38,7 +55,9 @@ const QuoteForm = (props) => {
           <textarea id='text' rows='5' ref={textInputRef}></textarea>
         </div>
         <div className={classes.actions}>
-          <button className='btn'>Add Quote</button>
+          <button className='btn' onClick={addQuoteHandler}>
+            Add Quote
+          </button>
         </div>
       </form>
     </Card>
