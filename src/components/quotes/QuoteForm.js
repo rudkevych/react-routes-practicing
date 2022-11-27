@@ -4,6 +4,7 @@ import Card from '../ui/Card';
 import LoadingSpinner from '../ui/LoadingSpinner';
 import classes from './QuoteForm.module.css';
 
+
 const QuoteForm = (props) => {
   const authorInputRef = useRef();
   const textInputRef = useRef();
